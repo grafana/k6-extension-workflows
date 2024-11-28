@@ -12,3 +12,12 @@ Opinionated all-in-one workflow, fits most extensions.
 ![Visualization](docs/validate-light.png#gh-light-mode-only)
 
 [Details](docs/validate.md)
+
+## Release
+
+Workflow for creating and attaching release artifacts.
+
+![Visualization](docs/release-dark.png#gh-dark-mode-only)
+![Visualization](docs/release-light.png#gh-light-mode-only)
+
+[Details](docs/release.md)
