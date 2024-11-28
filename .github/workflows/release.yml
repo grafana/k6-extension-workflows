@@ -4,27 +4,27 @@ on:
   workflow_call:
     inputs:
       k6-version:
-        description: k6 version to use
+        description: The version of k6 to be used
         type: string
         required: false
         default: "latest"
       go-version:
-        description: Go version to use
+        description: The version of Go to be used
         type: string
         required: false
         default: "1.22.x"
       os:
-        description: Target GOOS values to use
+        description: Target GOOS values
         type: string
         required: false
         default: '["linux", "windows"]'
       arch:
-        description: Target GOARCH values to use
+        description: Target GOARCH values
         type: string
         required: false
         default: '["amd64", "arm64"]'
       with:
-        description: Additional with parameters
+        description: List of additional extension modules to be included
         type: string
         required: false
       cgo:
