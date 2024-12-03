@@ -135,6 +135,7 @@ jobs:
           GOARCH: ${{matrix.arch}}
           CGO: ${{needs.config.outputs.cgo}}
           GOPRIVATE: ${{needs.config.outputs.goprivate}}
+          GH_TOKEN: ${{github.token}}
         run: |
           mkdir -p $DIST_DIR
           cd $DIST_DIR
