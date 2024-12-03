@@ -139,6 +139,7 @@ jobs:
         run: |
           mkdir -p $DIST_DIR
           cd $DIST_DIR
+          git config --global --add 'credential.https://github.com.helper' '!gh auth git-credential'
           xk6 build ${{ inputs.k6-version }} --with ${{needs.config.outputs.module-path}}@${{needs.config.outputs.version}} ${{needs.config.outputs.with}}
 
       - name: Download Artifacts
