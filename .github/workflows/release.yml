@@ -30,6 +30,9 @@ on:
       cgo:
         description: Enable CGO
         type: boolean
+      private:
+        description: The repository is private
+        type: boolean
 
 jobs:
   config:
@@ -41,6 +44,7 @@ jobs:
       version: ${{steps.version.outputs.version}}
       with: ${{steps.with.outputs.with}}
       cgo: ${{steps.cgo.outputs.cgo}}
+      goprivate: ${{steps.goprivate.outputs.goprivate}}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -82,6 +86,15 @@ jobs:
             cgo="1"
           fi
           echo "cgo=${cgo}" >> $GITHUB_OUTPUT
+      - name: Prepare GOPRIVATE environment valiable
+        id: goprivate
+        shell: bash
+        run: |
+          goprivate=""
+          if [ "${{inputs.private}}" == "true" ]; then
+            goprivate="$(go list -f '{{.Module.Path}}')"
+          fi
+          echo "goprivate=${goprivate}" >> $GITHUB_OUTPUT
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -121,9 +134,12 @@ jobs:
           GOOS: ${{matrix.os}}
           GOARCH: ${{matrix.arch}}
           CGO: ${{needs.config.outputs.cgo}}
+          GOPRIVATE: ${{needs.config.outputs.goprivate}}
+          GH_TOKEN: ${{github.token}}
         run: |
           mkdir -p $DIST_DIR
           cd $DIST_DIR
+          git config --global --add 'credential.https://github.com.helper' '!gh auth git-credential'
           xk6 build ${{ inputs.k6-version }} --with ${{needs.config.outputs.module-path}}@${{needs.config.outputs.version}} ${{needs.config.outputs.with}}
 
       - name: Download Artifacts
